@@ -6,7 +6,7 @@
 #    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 16:45:54 by jallen            #+#    #+#              #
-#    Updated: 2019/02/04 14:55:52 by jallen           ###   ########.fr        #
+#    Updated: 2019/02/05 14:34:58 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC =	ft_strlen.c ft_strdup.c ft_strlcat.c ft_strcpy.c ft_strncpy.c		\
 		ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_striter.c			\
 		ft_striteri.c ft_strmap.c ft_strmapi.c ft_lstnew.c ft_lstdelone.c	\
 		ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c 					\
-		ft_display.c ft_abs.c ft_strndup.c get_next_line.c 
+		ft_display.c ft_abs.c ft_strndup.c get_next_line.c					\
+		ft_split_whitespaces.c
 
 OBJ =	ft_strlen.o ft_strdup.o ft_strlcat.o ft_strcpy.o ft_strncpy.o 		\
 		ft_strcat.o ft_strncat.o ft_atoi.o ft_strchr.o ft_strstr.o 			\
@@ -38,7 +39,8 @@ OBJ =	ft_strlen.o ft_strdup.o ft_strlcat.o ft_strcpy.o ft_strncpy.o 		\
 		ft_putstr_fd.o ft_putendl_fd.o ft_putnbr_fd.o ft_striter.o			\
 		ft_striteri.o ft_strmap.o ft_strmapi.o ft_lstnew.o ft_lstdelone.o	\
 		ft_lstdel.o ft_lstadd.o ft_lstiter.o ft_lstmap.o 					\
-		ft_display.o ft_abs.o ft_strndup.o get_next_line.o
+		ft_display.o ft_abs.o ft_strndup.o get_next_line.o					\
+	ft_split_whitespaces.o
 
 CC = gcc
 
