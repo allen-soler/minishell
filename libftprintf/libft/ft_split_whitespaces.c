@@ -6,87 +6,65 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 14:33:37 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/05 14:36:29 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/06 15:10:38 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_dup(char *src)
+static int	is_blank(char c)
 {
-	int		i;
-	int		j;
-	char	*dest;
-
-	i = 0;
-	j = 0;
-	while (src[i] != 32 && src[i] != '\n' && src[i] != '\t' && src[i] != '\0')
-		i++;
-	dest = malloc(sizeof(char) * (i + 1));
-	if (!dest)
-		return (0);
-	while (j < i)
-	{
-		dest[j] = src[j];
-		j++;
-	}
-	dest[j] = '\0';
-	return (dest);
+	return (c == '\t' || c == ' ' || c == '\n');
 }
 
-int			ft_count_array(char *str)
+
+static size_t	count_words(char *str)
 {
-	int		i;
-	int		counter;
+	size_t	count;
+	int i;
 
 	i = 0;
-	counter = 0;
-	if (str[0] != 32 && str[0] != '\t' && str[0] != '\n')
-		counter++;
+	count = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != 32 && str[i] != '\n' && str[i] != '\t')
-			if (str[i - 1] == 32 || str[i - 1] == '\n' || str[i - 1] == '\t')
-				counter++;
-		i++;
+		if (!is_blank(str[i]) && str[i] != '\0')
+			count += 1;
+		while (!is_blank(str[i]) && str[i + 1] != '\0')
+			i += 1;
+		i += 1;
 	}
-	return (counter);
+	return (count);
 }
 
-void		ft_add_str(char *str, char **tab)
+static size_t	ft_wl(char *str)
 {
-	int		i;
-	int		counter_tab;
+	size_t len;
 
-	i = 0;
-	counter_tab = 0;
-	if (str[0] != 32 && str[0] != '\n' && str[0] != '\t')
-	{
-		tab[counter_tab] = ft_dup(str);
-		counter_tab++;
-	}
-	while (str[i] != '\0')
-	{
-		if (str[i] != 32 && str[i] != '\n' && str[i] != '\t')
-			if (str[i - 1] == 32 || str[i - 1] == '\n' || str[i - 1] == '\t')
-			{
-				tab[counter_tab] = ft_dup(&str[i]);
-				counter_tab++;
-			}
-		i++;
-	}
+	len = 0;
+	while (!is_blank(str[len]) && str[len] != '\0')
+		len++;
+	return (len);
 }
 
-char		**ft_split_whitespaces(char *str)
+char	**ft_split_whitespaces(char *str)
 {
 	char	**tab;
-	int		tab_len;
+	size_t	nb_words;
+	size_t	i;
 
-	tab_len = ft_count_array(str);
-	tab = malloc(sizeof(char *) * (1 + tab_len));
-	if (!tab)
+	i = 0;
+	nb_words = count_words(str);
+	if(!str || !(tab = (char **)malloc(sizeof(char *) * (nb_words + 1))))
 		return (NULL);
-	ft_add_str(str, tab);
-	tab[tab_len] = 0;
+	while (i < nb_words)
+	{
+		while (is_blank(*str))
+			str++;
+		tab[i] = ft_strndup(str, ft_wl(str));
+		while (!is_blank(*str) && *(str) != '\0')
+			str++;
+		i++;
+	}
+	tab[nb_words] = NULL;
 	return (tab);
 }

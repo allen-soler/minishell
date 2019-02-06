@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/15 09:36:57 by jallen            #+#    #+#             */
-/*   Updated: 2018/11/16 19:03:23 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/05 19:56:58 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char		*ft_add(char const *str, char split, char *dest)
 	j = 0;
 	while (str[j] != '\0' && str[j] != split)
 		j++;
-	if (!(dest = malloc(sizeof(char) * (j + 1))))
+	if (!(dest = malloc(sizeof(char) * (j))))
 		return (0);
 	while (str[i] != '\0' && str[i] != split)
 	{

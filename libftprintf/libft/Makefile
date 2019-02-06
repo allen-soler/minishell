@@ -6,7 +6,7 @@
 #    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 16:45:54 by jallen            #+#    #+#              #
-#    Updated: 2019/02/05 14:34:58 by jallen           ###   ########.fr        #
+#    Updated: 2019/02/05 19:16:51 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ OBJ =	ft_strlen.o ft_strdup.o ft_strlcat.o ft_strcpy.o ft_strncpy.o 		\
 		ft_striteri.o ft_strmap.o ft_strmapi.o ft_lstnew.o ft_lstdelone.o	\
 		ft_lstdel.o ft_lstadd.o ft_lstiter.o ft_lstmap.o 					\
 		ft_display.o ft_abs.o ft_strndup.o get_next_line.o					\
-	ft_split_whitespaces.o
+		ft_split_whitespaces.o 
 
 CC = gcc
 

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/05 15:27:07 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/05 19:27:36 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,12 @@
 **	FLAGS
 */ 
 # define N (1 << 0)
+
+void	free_array(char **tab);
+char	*ft_getenv(char **env, char *src);
+int		remove_spaces(char *split);
+void	ft_echo(char *line);
+char	*checking_bin(char **paths, char *line);
+void	ft_binary(char *line, char **env);
+void	check_command(char *line, char **env);
+

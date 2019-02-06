@@ -6,27 +6,36 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/05 16:11:42 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/06 15:24:38 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	free_array(char **tab)
+{
+	while (tab && *tab)
+	{
+		if (*tab)
+			free(*tab);
+		tab++;
+	}
+}
+
 char	*ft_getenv(char **env, char *src)
 {
-	char	*path;
 	int		i;
 
 	i = 0;
 	if (env == NULL || src == NULL)
-		return NULL;
-	while(env[i])
+		return (NULL);
+	while (env[i])
 	{
 		if (ft_strncmp(env[i], src, ft_strlen(src)) == 0)
-			path = ft_strchr(env[i], '=') + 1;
+			return (ft_strchr(env[i], '=') + 1);
 		i++;
 	}
-	return (path);
+	return (NULL);
 }
 
 int		remove_spaces(char *split)
@@ -54,7 +63,6 @@ void	ft_echo(char *line)
 	while (split[i])
 	{
 		ft_printf("%s ", split[i]);
-		free(split[i]);
 		i++;
 	}
 	ft_putchar('\n');
@@ -64,39 +72,42 @@ char	*checking_bin(char **paths, char *line)
 {
 	char		*dest;
 	char		*tmp;
-	int			i;
 	struct stat	sb;
 
-	i = 0;
 	tmp = 0;
-	while (paths[i])
+	while (paths && *paths)
 	{
-		if (chdir(paths[i]) == 0)
-		{
-			tmp = ft_strjoin(paths[i], "/");
-			dest = ft_strjoin(tmp, line);
-			if (stat(dest, &sb) == 0 && sb.st_mode & S_IXUSR)
-				return (dest);
-			free(tmp);
-			free(dest);
-		}	
-		i++;
+		tmp = ft_strjoin(*paths, "/");
+		dest = ft_strjoin(tmp, line);
+		free(tmp);
+		if (stat(dest, &sb) == 0 && sb.st_mode & S_IXUSR)
+			return (dest);
+		free(dest);
+		paths++;
 	}
 	return (NULL);
 }
+
 void	ft_binary(char *line, char **env)
 {
-	char 	**argv;
+	char	**argv;
 	char	**paths;
 	char	*dest;
+	pid_t	pid;
 
 	paths = ft_strsplit(ft_getenv(env, "PATH"), ':');
 	argv = ft_split_whitespaces(line);
-	dest =checking_bin(paths, argv[0]);
-	if (dest && fork() == 0)
-		execve(dest, &argv[0], env);
+	dest = checking_bin(paths, argv[0]);
+	if (dest)
+	{
+		pid = fork();
+		if (pid == 0)
+			execve(dest, &argv[0], env);
+	}
+	wait(&pid);
+	free_array(paths);
+	free_array(argv);
 	free(dest);
-	free(line);
 }
 
 void	check_command(char *line, char **env)
@@ -112,10 +123,11 @@ void	check_command(char *line, char **env)
 		j = remove_spaces(split[i]);
 		if (ft_strncmp(&split[i][j], "echo", 4) == 0)
 			ft_echo(&split[i][j]);
-		else	
+		else
 			ft_binary(&split[i][j], env);
 		i++;
 	}
+	free_array(split);
 }
 
 int		main(int ac, char **av, char **env)
@@ -129,7 +141,8 @@ int		main(int ac, char **av, char **env)
 	{
 		ft_printf("{r}$>{R} ");
 		get_next_line(0, &line);
-		check_command(line, env);
+		if (line)
+			check_command(line, env);
 		if (ft_strcmp(line, "exit") == 0)
 			exit(EXIT_SUCCESS);
 		free(line);
