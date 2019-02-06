@@ -6,7 +6,7 @@
 /*   By: nalonso <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 12:28:06 by nalonso           #+#    #+#             */
-/*   Updated: 2019/01/21 12:42:50 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/02/06 17:45:32 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void		handle_base(t_param *n, unsigned int base, t_printf *p)
 	i[1] = '\0';
 	if ((!err) && n->ind & SHARP)
 		res = fstrjoin(ft_strdup_safe(i), res);
-	if (((n->ind & PRECISION && !(n->ind & ZERO) && (n->precision != 0)) || \
-		(err && !(n->ind & SHARP)) || (n->ind & SHARP && err \
+	if (((n->ind & PRECISION && !(n->ind & ZERO) && (n->precision != 0)) \
+				|| (err && !(n->ind & SHARP)) || (n->ind & SHARP && err \
 		&& n->precision == 0 && (n->ind & ZERO || n->ind & NONE))))
 		res = add_prec(res, n);
 	res = add_ind(res, n);

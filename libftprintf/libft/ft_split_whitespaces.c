@@ -6,22 +6,21 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 14:33:37 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/06 16:43:17 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/06 17:47:45 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_blank(char c)
+static int		is_blank(char c)
 {
 	return (c == '\t' || c == ' ' || c == '\n');
 }
 
-
 static size_t	count_words(char *str)
 {
 	size_t	count;
-	int i;
+	int		i;
 
 	i = 0;
 	count = 0;
@@ -46,7 +45,7 @@ static size_t	ft_wl(char *str)
 	return (len);
 }
 
-char	**ft_split_whitespaces(char *str)
+char			**ft_split_whitespaces(char *str)
 {
 	char	**tab;
 	size_t	nb_words;
@@ -54,7 +53,7 @@ char	**ft_split_whitespaces(char *str)
 
 	i = 0;
 	nb_words = count_words(str);
-	if(!str || !(tab = (char **)malloc(sizeof(char *) * (nb_words + 1))))
+	if (!str || !(tab = (char **)malloc(sizeof(char *) * (nb_words + 1))))
 		return (NULL);
 	while (i < nb_words)
 	{

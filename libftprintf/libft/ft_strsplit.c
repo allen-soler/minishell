@@ -6,85 +6,64 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/15 09:36:57 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/05 19:56:58 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/06 17:52:40 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		ft_countm(char const *str, char split)
+static int		is_blank(char c, char split)
 {
-	int	counter;
-	int	i;
-
-	counter = 0;
-	i = 0;
-	if (str[i] && str[i] != split)
-		counter++;
-	while (str[i] != '\0')
-	{
-		if (str[i - 1] == split && str[i] != split)
-			counter++;
-		i++;
-	}
-	return (counter);
+	return (c == split);
 }
 
-static char		*ft_add(char const *str, char split, char *dest)
+static size_t	count_words(char const *str, char split)
 {
-	int	i;
-	int	j;
+	size_t	count;
+	int		i;
 
 	i = 0;
-	j = 0;
-	while (str[j] != '\0' && str[j] != split)
-		j++;
-	if (!(dest = malloc(sizeof(char) * (j))))
-		return (0);
-	while (str[i] != '\0' && str[i] != split)
-	{
-		dest[i] = str[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-static char		**ft_addwords(char const *str, char split, char **dest)
-{
-	int	i;
-	int	counter;
-
-	i = 0;
-	counter = 0;
-	if (str[i] != split)
-	{
-		dest[counter] = ft_add(&str[i], split, dest[counter]);
-		counter++;
-	}
+	count = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i - 1] == split && str[i] != split)
-		{
-			dest[counter] = ft_add(&str[i], split, dest[counter]);
-			counter++;
-		}
-		i++;
+		if (!is_blank(str[i], split) && str[i] != '\0')
+			count += 1;
+		while (!is_blank(str[i], split) && str[i + 1] != '\0')
+			i += 1;
+		i += 1;
 	}
-	return (dest);
+	return (count);
+}
+
+static size_t	ft_wl(char const *str, char split)
+{
+	size_t len;
+
+	len = 0;
+	while (!is_blank(str[len], split) && str[len] != '\0')
+		len++;
+	return (len);
 }
 
 char			**ft_strsplit(char const *str, char split)
 {
-	char	**dest;
-	int		i;
+	char	**tab;
+	size_t	nb_words;
+	size_t	i;
 
-	if (!str)
-		return (0);
-	i = ft_countm(str, split);
-	if (!(dest = malloc(sizeof(char *) * (i + 1))))
-		return (0);
-	ft_addwords(str, split, dest);
-	dest[i] = 0;
-	return (dest);
+	i = 0;
+	nb_words = count_words(str, split);
+	if (!str || !(tab = (char **)malloc(sizeof(char *) * (nb_words + 1))))
+		return (NULL);
+	while (i < nb_words)
+	{
+		while (*str != '\0' && is_blank(*str, split))
+			str++;
+		tab[i] = ft_strndup(str, ft_wl(str, split));
+		while (!is_blank(*str, split) && *(str) != '\0')
+			str++;
+		i++;
+	}
+	tab[nb_words] = NULL;
+	return (tab);
 }

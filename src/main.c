@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/06 16:53:06 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/06 20:10:18 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 void	free_array(char **tab)
 {
-	while (tab && *tab)
+	int	i;
+
+	i = 0;
+	while (tab[i])
 	{
-		if (*tab)
-			free(*tab);
-		tab++;
+		if (tab[i])
+			free(tab[i]);
+		i++;
 	}
+	if (tab)
+		free(tab);
 }
 
 char	*ft_getenv(char **env, char *src)
@@ -75,16 +80,15 @@ char	*checking_bin(char **paths, char *line)
 	struct stat	sb;
 
 	tmp = 0;
-	int i = 0;
-	while (*paths)
+	while (paths && *paths)
 	{
-		tmp = ft_strjoin(paths[i], "/");
+		tmp = ft_strjoin(*paths, "/");
 		dest = ft_strjoin(tmp, line);
 		free(tmp);
 		if (stat(dest, &sb) == 0 && sb.st_mode & S_IXUSR)
 			return (dest);
 		free(dest);
-		i++;
+		paths++;
 	}
 	return (NULL);
 }
@@ -112,6 +116,8 @@ void	ft_local_binary(char *line)
 		wait(&pid);
 		kill(pid, EXIT_SUCCESS);
 	}
+	else
+		ft_printf("minishell: command not found :%s\n", argv[0]);
 	free_array(argv);
 }
 
@@ -132,9 +138,9 @@ void	ft_binary(char *line, char **env)
 			execve(dest, &argv[0], env);
 		wait(&pid);
 		kill(pid, EXIT_SUCCESS);
-		free_array(paths);
 		free(dest);
 	}
+	free_array(paths);
 	free_array(argv);
 }
 
@@ -166,12 +172,12 @@ int		main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	signal(SIGINT, SIG_IGN);
 	while (69)
 	{
+		signal(SIGINT, SIG_IGN);
 		ft_printf("{r}$>{R} ");
 		get_next_line(0, &line);
-		if (ft_strcmp(line, "exit") == 0)
+		if (ft_strcmp(&line[remove_spaces(line)], "exit") == 0)
 			exit(EXIT_SUCCESS);
 		if (line)
 			check_command(line, env);

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 12:42:51 by jallen            #+#    #+#             */
-/*   Updated: 2018/11/09 15:54:25 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/06 17:34:46 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ size_t	ft_strlcat(char *restrict dst, const char *restrict src, size_t size)
 	len_src = ft_strlen(src);
 	if (size < (size_t)len_dest)
 		return (size + (size_t)len_src);
-	while ((size_t)i < size - (size_t)len_dest - 1 &&
-			size >= (size_t)len_dest + 1)
+	while ((size_t)i < size - (size_t)len_dest - 1
+			&& size >= (size_t)len_dest + 1)
 	{
 		dst[i + len_dest] = src[i];
 		i++;
