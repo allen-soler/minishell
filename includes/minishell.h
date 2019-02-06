@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/05 19:27:36 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/06 16:42:47 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,34 @@
 # include <errno.h>
 # include <signal.h>
 # include <sys/wait.h>
-# include <sys/acl.h>
 # include <sys/xattr.h>
 # include <sys/ioctl.h>
 /*
 **	FLAGS
 */ 
 # define N (1 << 0)
-
-void	free_array(char **tab);
+/*
+** Env bins + env functions
+*/
 char	*ft_getenv(char **env, char *src);
-int		remove_spaces(char *split);
-void	ft_echo(char *line);
 char	*checking_bin(char **paths, char *line);
 void	ft_binary(char *line, char **env);
-void	check_command(char *line, char **env);
 
+/*
+** Local bins
+*/
+int		check_local_bin(char *dest);
+void	ft_local_binary(char *line);
+/*
+** Builtins
+*/ 
+void	ft_echo(char *line);
+/*
+** Parsing
+*/
+int		remove_spaces(char *split);
+void	check_command(char *line, char **env);
+/*
+** FREE 
+*/
+void	free_array(char **tab);

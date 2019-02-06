@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 14:33:37 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/06 15:10:38 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/06 16:43:17 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**ft_split_whitespaces(char *str)
 		return (NULL);
 	while (i < nb_words)
 	{
-		while (is_blank(*str))
+		while (*str != '\0' && is_blank(*str))
 			str++;
 		tab[i] = ft_strndup(str, ft_wl(str));
 		while (!is_blank(*str) && *(str) != '\0')
