@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/06 19:14:01 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/07 17:58:47 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	ft_local_binary(char *line);
 /*
 ** Builtins
 */
-void	ft_echo(char *line);
+int		ft_get_builtins(char *line);
+void	ft_cd(char *line, char **env);
+void	ft_echo(char *line, char **env);
+void	ft_builtins(char *line, int nb, char **env);
 /*
 ** Parsing
 */

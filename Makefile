@@ -6,7 +6,7 @@
 #    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 13:48:04 by jallen            #+#    #+#              #
-#    Updated: 2019/02/05 18:51:23 by jallen           ###   ########.fr        #
+#    Updated: 2019/02/07 16:19:41 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,11 @@ DIR_O = temporary
 
 DIR_H = includes
 
-SOURCES = main.c
+SOURCES = main.c\
+		  ft_binaries.c\
+		  ft_tools.c\
+		  ft_builtins.c\
+		  ft_cd.c
 
 SRCS = $(addprefix $(DIR_S)/, $(SOURCES))
 
