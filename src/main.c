@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/07 19:38:21 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/08 14:22:44 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		main(int ac, char **av, char **env)
 	(void)av;
 	while (69)
 	{
-		signal(SIGINT, SIG_IGN);
+		//signal(SIGINT, SIG_IGN);
 		ft_printf("{r}$>{R} ");
 		get_next_line(0, &line);
 		if (ft_strcmp(&line[remove_spaces(line)], "exit") == 0)
