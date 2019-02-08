@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/07 18:48:15 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/08 16:34:01 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ void	ft_local_binary(char *line)
 	{
 		pid = fork();
 		if (pid == 0)
+		{
 			execve(argv[0], &argv[0], NULL);
+			exit(EXIT_SUCCESS);
+		}
 		wait(&pid);
 		kill(pid, EXIT_SUCCESS);
 	}
@@ -92,7 +95,10 @@ void	ft_binary(char *line, char **env)
 	{
 		pid = fork();
 		if (pid == 0)
+		{
 			execve(dest, &argv[0], env);
+			exit(EXIT_SUCCESS);
+		}
 		wait(&pid);
 		kill(pid, EXIT_SUCCESS);
 		free(dest);

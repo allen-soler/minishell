@@ -1,13 +1,11 @@
 int	main(int ac, char **av)
 {
 	int		i;
+	char	*cwd;
+	char	buff[4097];
 
-	i = 0;
-	if (ac == 2)
-	{
-		while(av[i])
-			i++;
-		printf("%i\n", i);
-	}
+	getcwd(buff, sizeof(buff));
+	printf("hello %lu\n", strlen("OLDPWD="));
+
 	return (0);
 }

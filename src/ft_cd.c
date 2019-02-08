@@ -6,32 +6,30 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 15:38:00 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/08 13:56:41 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/08 17:55:04 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	ft_setpwd(char *name, char *value, char **env)
+static int	ft_setpwd(char *value, char **env)
 {
 	int		i;
-	char	*pwd;
+	char	pwd[4097];
 
 	i = 0;
-	pwd = NULL;
-	if (env == NULL || name == NULL)
+	if (env == NULL)
 		return (0);
-	if ((pwd = getcwd(pwd, sizeof(pwd))))
+	if (getcwd(pwd, sizeof(pwd)) != NULL)
 	{
 		while (env[i])
 		{
-			if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
-				env[i] = ft_strjoin("PWD=", pwd);
-			if (ft_strncmp(env[i], "OLDPWD", ft_strlen("OLDPWD")) == 0)
-				env[i] = ft_strjoin("OLDPWD=", value);
+			if (ft_strncmp(env[i], "PWD=", ft_strlen("PWD=")) == 0)
+				ft_strcpy(&env[i][4], pwd);
+			if (ft_strncmp(env[i], "OLDPWD=", ft_strlen("OLDPWD=")) == 0)
+				ft_strcpy(&env[i][7], value);
 			i++;
 		}
-		free(pwd);
 	}
 	return (0);
 }
@@ -39,34 +37,31 @@ static int	ft_setpwd(char *name, char *value, char **env)
 static void	ft_single_cd(char **env)
 {
 	char	*user;
-	char	*cwd;
+	char	cwd[4097];
 
-	cwd = NULL;
 	user = ft_strjoin("/Users/", ft_getenv(env, "USER"));
-	if ((cwd = getcwd(cwd, sizeof(cwd))))
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		chdir(user);
-		ft_setpwd("PWD", cwd, env);
-		free(cwd);
+		ft_setpwd(cwd, env);
 	}
 	free(user);
 }
 
 static void	ft_cd_access(char **av, char **env)
 {
-	char	*cwd;
+	char	cwd[4097];
 
-	cwd = NULL;
 	if (av[0] && av[1] == NULL)
 	{
 		if (access(av[0], F_OK) == 0)
 		{
 			if ((access(av[0], W_OK) == 0 || av[0][0] == '/')
-					&& (cwd = getcwd(cwd, sizeof(cwd)))
+					&& getcwd(cwd, sizeof(cwd))
 					&& chdir(av[0]) == 0)
 			{
-				ft_setpwd("PWD=", cwd, env);
-				free(cwd);
+				chdir(av[0]);
+				ft_setpwd(cwd, env);
 			}
 			else if (access(av[0], W_OK) == -1)
 				ft_fprintf(2, "cd: permission denied: %s\n", av[0]);
@@ -83,18 +78,16 @@ static void	ft_cd_access(char **av, char **env)
 void		ft_cd(char **av, char **env)
 {
 	char	*tmp;
-	char	*cwd;
+	char	cwd[4097];
 
-	cwd = NULL;
 	if (av[0] == NULL)
 		ft_single_cd(env);
 	else if (av[0][0] == '-' && ft_strlen(av[0]) == 1 && av[1] == NULL
-			&& (cwd = getcwd(cwd, sizeof(cwd))))
+			&& getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		tmp = ft_getenv(env, "OLDPWD=");
 		chdir(tmp);
-		ft_setpwd("PWD", cwd, env);
-		free(cwd);
+		ft_setpwd(cwd, env);
 	}
 	else if (av[0])
 		ft_cd_access(av, env);
