@@ -6,12 +6,25 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/08 14:22:44 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/08 20:17:58 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int	pick_binary(char *line)
+{
+		if (ft_strncmp(line, ".", 1) == 0)
+			return (1);
+		else
+			return (2);
+	return (0);
+}
+
+void	choose_binary(char *line, char **env)
+{
+	char	**argv;
+}
 void	check_command(char *line, char **env)
 {
 	char	**split;
@@ -27,10 +40,10 @@ void	check_command(char *line, char **env)
 		builtins = ft_get_builtins(&split[i][j]);
 		if (builtins > 0)
 			ft_builtins(&split[i][j], builtins, env);
-		else if (ft_strncmp(&split[i][j], ".", 1) == 0)
-			ft_local_binary(&split[i][j]);
+		else if ((builtins = pick_binary(&split[i][j])) > 0)
+			return (choose_binary(builtins));
 		else
-			ft_binary(&split[i][j], env);
+			ft_fprintf(2, &
 		i++;
 	}
 	free_array(split);
