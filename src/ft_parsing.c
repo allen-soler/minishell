@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:58:17 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 16:36:39 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 18:56:52 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,36 +67,6 @@ void	ft_builtins(char *line, int nb, char **env)
 		av = ft_split_whitespaces(&line[2]);
 		ft_checking_av(av, env);
 		ft_cd(av, env);
-		free_array(av);
-	}
-}
-
-int		pick_binary(char *line)
-{
-	if (ft_strncmp(line, ".", 1) == 0)
-		return (1);
-	else
-		return (2);
-	return (0);
-}
-
-void	choose_binary(char *line, char **env, int nb)
-{
-	char	**av;
-
-	av = NULL;
-	if (nb == 1)
-	{
-		av = ft_split_whitespaces(line);
-		ft_checking_av(av, env);
-		ft_local_binary(av);
-		free_array(av);
-	}
-	else if (nb == 2)
-	{
-		av = ft_split_whitespaces(line);
-		ft_checking_av(av, env);
-		ft_binary(av, env);
 		free_array(av);
 	}
 }

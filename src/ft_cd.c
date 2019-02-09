@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 15:38:00 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 17:08:23 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 19:30:49 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	ft_setpwd(char *value, char **env)
 		return (0);
 	if (getcwd(pwd, sizeof(pwd)) != NULL)
 	{
-		ft_setenv("PWD=", pwd, env);
-		ft_setenv("OLDPWD=", value, env);
+		ft_setenv("PWD", pwd, env);
+		ft_setenv("OLDPWD", value, env);
 	}
 	return (0);
 }
@@ -79,7 +79,7 @@ void		ft_cd(char **av, char **env)
 	else if (av[0][0] == '-' && ft_strlen(av[0]) == 1 && av[1] == NULL
 			&& getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		tmp = ft_getenv(env, "OLDPWD=");
+		tmp = ft_getenv(env, "OLDPWD");
 		chdir(tmp);
 		ft_setpwd(cwd, env);
 	}/*
