@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 15:38:00 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/08 17:56:22 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 14:03:11 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,8 @@ static int	ft_setpwd(char *value, char **env)
 		return (0);
 	if (getcwd(pwd, sizeof(pwd)) != NULL)
 	{
-		while (env[i])
-		{
-			if (ft_strncmp(env[i], "PWD=", ft_strlen("PWD=")) == 0)
-				ft_strcpy(&env[i][4], pwd);
-			if (ft_strncmp(env[i], "OLDPWD=", ft_strlen("OLDPWD=")) == 0)
-				ft_strcpy(&env[i][7], value);
-			i++;
-		}
+		ft_setenv("PWD=", pwd, env);
+		ft_setenv("OLDPWD=", value, env);
 	}
 	return (0);
 }
@@ -88,7 +82,12 @@ void		ft_cd(char **av, char **env)
 		tmp = ft_getenv(env, "OLDPWD=");
 		chdir(tmp);
 		ft_setpwd(cwd, env);
-	}
+	}/*
+		else if (ft_strcmp(av[0], "..") == 0 && av[1] == NULL
+		&& getcwd(cwd, sizeof(cwd)) != NULL)
+		{
+		tmp = ft
+		}*/
 	else if (av[0])
 		ft_cd_access(av, env);
 }

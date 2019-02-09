@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/08 14:26:17 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 14:17:45 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,18 @@
 /*
 ** Env bins + env functions
 */
+int		ft_setenv(char *name, char *new_val, char **env);
 char	*ft_getenv(char **env, char *src);
-char	*checking_bin(char **paths, char *line);
-void	ft_binary(char *line, char **env);
 /*
-** Local bins
+** Bins
 */
-int		check_local_bin(char *dest);
-void	ft_local_binary(char *line);
+void	ft_binary(char **argv, char **env);
+void	ft_local_binary(char **argv);
+/*
+**	Pick bins
+*/
+int		pick_binary(char *line);
+void	choose_binary(char *line, char **env, int nb);
 /*
 ** Builtins
 */
@@ -49,8 +53,8 @@ void	ft_builtins(char *line, int nb, char **env);
 /*
 ** Parsing
 */
+void	ft_checking_av(char **av, char **env);
 int		remove_spaces(char *split);
-void	check_command(char *line, char **env);
 /*
 ** FREE
 */

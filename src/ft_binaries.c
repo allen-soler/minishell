@@ -6,29 +6,13 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/08 16:34:01 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 14:18:35 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_getenv(char **env, char *src)
-{
-	int		i;
-
-	i = 0;
-	if (env == NULL || src == NULL)
-		return (NULL);
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], src, ft_strlen(src)) == 0)
-			return (ft_strchr(env[i], '=') + 1);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*checking_bin(char **paths, char *line)
+static char	*checking_bin(char **paths, char *line)
 {
 	char		*dest;
 	char		*tmp;
@@ -48,7 +32,7 @@ char	*checking_bin(char **paths, char *line)
 	return (NULL);
 }
 
-int		check_local_bin(char *dest)
+static int	check_local_bin(char *dest)
 {
 	struct stat	sb;
 
@@ -57,13 +41,11 @@ int		check_local_bin(char *dest)
 	return (0);
 }
 
-void	ft_local_binary(char *line)
+void		ft_local_binary(char **argv)
 {
-	char	**argv;
 	pid_t	pid;
 	int		i;
 
-	argv = ft_split_whitespaces(line);
 	i = 0;
 	if (check_local_bin(argv[0]) == 1)
 	{
@@ -78,17 +60,14 @@ void	ft_local_binary(char *line)
 	}
 	else
 		ft_fprintf(2, "minishell: command not found : %s\n", argv[0]);
-	free_array(argv);
 }
 
-void	ft_binary(char *line, char **env)
+void		ft_binary(char **argv, char **env)
 {
-	char	**argv;
 	char	*dest;
 	char	**paths;
 	pid_t	pid;
 
-	argv = ft_split_whitespaces(line);
 	paths = ft_strsplit(ft_getenv(env, "PATH"), ':');
 	dest = checking_bin(paths, argv[0]);
 	if (dest)
@@ -106,5 +85,4 @@ void	ft_binary(char *line, char **env)
 	else
 		ft_fprintf(2, "minishell: command not found : %s\n", argv[0]);
 	free_array(paths);
-	free_array(argv);
 }

@@ -6,26 +6,22 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/08 20:17:58 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 14:19:17 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	pick_binary(char *line)
+static void	ft_invcommand(char *line)
 {
-		if (ft_strncmp(line, ".", 1) == 0)
-			return (1);
-		else
-			return (2);
-	return (0);
+	char	**av;
+
+	av = ft_split_whitespaces(line);
+	ft_fprintf(2, "minishell: command not found: %s\n", av[0]);
+	free_array(av);
 }
 
-void	choose_binary(char *line, char **env)
-{
-	char	**argv;
-}
-void	check_command(char *line, char **env)
+static void	check_command(char *line, char **env)
 {
 	char	**split;
 	int		i;
@@ -41,15 +37,15 @@ void	check_command(char *line, char **env)
 		if (builtins > 0)
 			ft_builtins(&split[i][j], builtins, env);
 		else if ((builtins = pick_binary(&split[i][j])) > 0)
-			return (choose_binary(builtins));
+			return (choose_binary(line, env, builtins));
 		else
-			ft_fprintf(2, &
+			ft_invcommand(line);
 		i++;
 	}
 	free_array(split);
 }
 
-int		main(int ac, char **av, char **env)
+int			main(int ac, char **av, char **env)
 {
 	char	*line;
 

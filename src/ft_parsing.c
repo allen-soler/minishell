@@ -6,11 +6,30 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:58:17 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 14:19:03 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 14:20:26 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int		ft_get_builtins(char *line)
+{
+	char	**av;
+
+	av = ft_split_whitespaces(line);
+	if (ft_strcmp(av[0], "echo") == 0)
+	{
+		free_array(av);
+		return (1);
+	}
+	else if (ft_strcmp(av[0], "cd") == 0)
+	{
+		free_array(av);
+		return (2);
+	}
+	free_array(av);
+	return (0);
+}
 
 void	ft_checking_av(char **av, char **env)
 {
@@ -39,25 +58,6 @@ void	ft_checking_av(char **av, char **env)
 		}
 		i++;
 	}
-}
-
-int		ft_get_builtins(char *line)
-{
-	char	**av;
-
-	av = ft_split_whitespaces(line);
-	if (ft_strcmp(av[0], "echo") == 0)
-	{
-		free_array(av);
-		return (1);
-	}
-	else if (ft_strcmp(av[0], "cd") == 0)
-	{
-		free_array(av);
-		return (2);
-	}
-	free_array(av);
-	return (0);
 }
 
 void	ft_builtins(char *line, int nb, char **env)
