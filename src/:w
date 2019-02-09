@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 18:01:47 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 17:31:49 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 */
 int		ft_setenv(char *name, char *new_val, char **env);
 char	*ft_getenv(char **env, char *src);
-char	**malloc_env(char **env);
 /*
 ** Bins
 */

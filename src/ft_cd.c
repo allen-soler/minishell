@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 15:38:00 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 14:03:11 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 17:08:23 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,20 @@ static void	ft_cd_access(char **av, char **env)
 	{
 		if (access(av[0], F_OK) == 0)
 		{
-			if ((access(av[0], W_OK) == 0 || av[0][0] == '/')
+			if ((access(av[0], X_OK) == 0 || av[0][0] == '/')
 					&& getcwd(cwd, sizeof(cwd))
 					&& chdir(av[0]) == 0)
 			{
 				chdir(av[0]);
 				ft_setpwd(cwd, env);
 			}
-			else if (access(av[0], W_OK) == -1)
+			else if (access(av[0], X_OK) == -1)
 				ft_fprintf(2, "cd: permission denied: %s\n", av[0]);
 			else
-				ft_fprintf(2, "cd: directory: %s\n", av[0]);
+				ft_fprintf(2, "cd: is not directory: %s\n", av[0]);
 		}
 		else
-			ft_fprintf(2, "cd: directory: %s\n", av[0]);
+			ft_fprintf(2, "cd: is not a drectory: %s\n", av[0]);
 	}
 	else if (av[1])
 		ft_fprintf(2, "cd: string not in pwd: %s\n", av[0]);

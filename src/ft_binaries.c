@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 14:18:35 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 17:31:35 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ static int	check_local_bin(char *dest)
 	return (0);
 }
 
-void		ft_local_binary(char **argv)
+void		ft_local_binary(char *line, char **env)
 {
+	char	**argv;
 	pid_t	pid;
 	int		i;
 
 	i = 0;
+	argv = ft_split_whitespaces(line);
+	ft_checking_av(argv, env);
 	if (check_local_bin(argv[0]) == 1)
 	{
 		pid = fork();
@@ -60,15 +63,19 @@ void		ft_local_binary(char **argv)
 	}
 	else
 		ft_fprintf(2, "minishell: command not found : %s\n", argv[0]);
+	free_array(argv);
 }
 
-void		ft_binary(char **argv, char **env)
+void		ft_binary(char *line, char **env)
 {
+	char	**argv;
 	char	*dest;
 	char	**paths;
 	pid_t	pid;
 
 	paths = ft_strsplit(ft_getenv(env, "PATH"), ':');
+	argv = ft_split_whitespaces(line);
+	ft_checking_av(argv, env);
 	dest = checking_bin(paths, argv[0]);
 	if (dest)
 	{
@@ -85,4 +92,5 @@ void		ft_binary(char **argv, char **env)
 	else
 		ft_fprintf(2, "minishell: command not found : %s\n", argv[0]);
 	free_array(paths);
+	free_array(argv);
 }

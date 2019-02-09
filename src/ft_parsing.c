@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:58:17 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 14:20:26 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 16:36:39 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,22 @@ int		ft_get_builtins(char *line)
 void	ft_checking_av(char **av, char **env)
 {
 	int		i;
-	char	*r;
-	char	*tmp;
 
-	r = NULL;
-	tmp = NULL;
 	i = 0;
 	while (av[i])
 	{
 		if (av[i][0] == '~')
 		{
-			tmp = ft_strdup(av[i]);
-			free(av[i]);
-			if (ft_strlen(tmp) > 1)
+			if (av[i][1] == '/')
 			{
-				r = ft_strjoin(ft_getenv(env, "HOME="), "/");
-				av[i] = ft_strjoin(r, &tmp[1]);
-				free(r);
+				free(av[0]);
+				av[i] = ft_strjoin(ft_getenv(env, "HOME="), &av[i][1]);
 			}
-			else
+			else if (ft_strlen(av[i]) == 1)
+			{
+				free(av[i]);
 				av[i] = ft_strdup(ft_getenv(env, "HOME="));
-			free(tmp);
+			}
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:53:10 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/07 12:58:30 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 18:31:45 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 void	free_array(char **tab)
 {
-	int	i;
+	char	**ptr;
 
-	i = 0;
-	while (tab[i])
+	ptr = tab;
+	while (tab && *tab)
 	{
-		if (tab[i])
-			free(tab[i]);
-		i++;
+		free(*tab);
+		tab++;
 	}
-	if (tab)
-		free(tab);
+	(ptr) ? free(ptr) : 0;
 }
 
 int		remove_spaces(char *split)

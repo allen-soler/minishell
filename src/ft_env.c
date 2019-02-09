@@ -6,21 +6,39 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 14:02:36 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 14:19:34 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/09 18:43:08 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+char	**malloc_env(char **env)
+{
+	size_t	i;
+
+	i = 0;
+	if (env == NULL)
+		return (NULL);
+	while (env[i])
+	{
+		env[i] = ft_strdup(env[i]);
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
+}
+
 int		ft_setenv(char *name, char *new, char **env)
 {
 	char	*tmp;
 
+	tmp = NULL;
 	if (env == NULL || name == NULL)
 		return (0);
-	if (!(tmp = ft_getenv(env, name)))
-		return (0);
-	ft_strcpy(tmp, new);
+	if ((tmp = ft_getenv(env, name)))
+	{
+				
+	}
 	return (1);
 }
 
