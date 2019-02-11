@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 18:06:19 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 19:12:18 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define E (1 << 0)
 # define EE (1 << 1)
 # define N (1 << 2)
+
 /*
 ** Env bins + env functions
 */
@@ -53,5 +54,6 @@ void	picking_builtins(char **av, char *line, char **env);
 void	ft_checking_av(char **av, char **env);
 void	ft_checking_var(char **av, char **env);
 int		remove_spaces(char *split);
+char	**ft_split(char const *str, char split);
 
 #endif

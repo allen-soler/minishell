@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 12:03:35 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 09:42:38 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 19:06:53 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,28 @@ static void	ft_check_f(char *av, int *i, short *r)
 void		ft_echo(char *av, char **env)
 {
 	int		i;
+	int		j;
+	char	**argv;
 	short	r;
 
 	r = 0;
 	i = 0;
 	ft_check_f(av, &i, &r);
-	while (av[i])
+	argv = ft_split_whitespaces(&av[i]);
+	ft_checking_av(argv, env);
+	i = 0;
+	while (argv[i])
 	{
-		if (av[i] == '~')
-			ft_printf("%s/", ft_getenv(env, "HOME="));
-		else if (av[i] != '"')
-			ft_putchar(av[i]);
-		else if (r & EE)
+		j = 0;
+		while (argv[i][j])
 		{
-			if (av[i] == '\\' && av[i + 1] == 't')
-				ft_putchar('\t');
-			else if (av[i] == '\\' && av[i + 1] == 'n')
-				ft_putchar('\n');
+			if (argv[i][j] != '"')
+				ft_putchar(argv[i][j]);
+			j++;
 		}
 		i++;
 	}
 	if ((r & N) == 0)
 		ft_putchar('\n');
+	free_array(argv);
 }

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:58:17 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 16:02:52 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:47:13 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	picking_builtins(char **av, char *line, char **env)
 	if (ft_strcmp(av[0], "env") == 0 && tab_counter(av) == 1)
 		ft_print_tab(env);
 	else if (ft_strcmp(av[0], "echo") == 0)
-		ft_echo(&line[remove_spaces(line)], env);
+		ft_echo(&line[remove_spaces(line) + 4], env);
 	else if (ft_strcmp(av[0], "cd") == 0)
 		ft_cd(&av[1], env);
 	else if (ft_strcmp(av[0], "setenv") == 0)

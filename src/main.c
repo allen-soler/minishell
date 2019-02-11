@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 17:35:24 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 19:07:38 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			main(int ac, char **av, char **env)
 	env = malloc_env(env);
 	while (69)
 	{
-		//signal(SIGINT, SIG_IGN);
+		signal(SIGINT, SIG_IGN);
 		ft_printf("{r}$>{R}");
 		get_next_line(0, &line);
 		if (line)

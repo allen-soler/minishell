@@ -6,12 +6,11 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/15 09:36:57 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 17:46:52 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 19:10:05 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int		is_blank(char c, char split)
 {
