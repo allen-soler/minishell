@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 18:01:47 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 14:00:11 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,25 @@ char	**malloc_env(char **env);
 /*
 ** Bins
 */
-void	ft_binary(char *line, char **env);
-void	ft_local_binary(char *line, char **env);
+void	ft_binary(char **av, char **env);
+void	ft_local_binary(char **av, char **env);
 /*
 ** Builtins
 */
-int		ft_get_builtins(char *line);
 void	ft_cd(char **av, char **env);
 void	ft_echo(char *av, char **env);
-void	ft_builtins(char *line, int nb, char **env);
+int		check_builtins(char *av);
+void	picking_builtins(char **av, char *line, char **env);
+
 /*
 ** Parsing
 */
 void	ft_checking_av(char **av, char **env);
 int		remove_spaces(char *split);
 /*
-** FREE
+** FREE + TOOLS
 */
 void	free_array(char **tab);
+int		tab_counter(char **av);
 
 #endif

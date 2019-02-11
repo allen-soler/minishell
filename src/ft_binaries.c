@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 17:31:35 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 13:04:06 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,26 @@ static char	*checking_bin(char **paths, char *line)
 		free(dest);
 		paths++;
 	}
+	ft_fprintf(2, "minishell: command not found : %s\n", line);
 	return (NULL);
 }
 
 static int	check_local_bin(char *dest)
 {
-	struct stat	sb;
+	struct stat	f_stat;
 
-	if (stat(dest, &sb) == 0 && sb.st_mode & S_IXUSR)
+	if (stat(dest, &f_stat) == 0 && f_stat.st_mode & S_IXUSR)
 		return (1);
+	ft_fprintf(2, "minishell: command not found : %s\n", dest);
 	return (0);
 }
 
-void		ft_local_binary(char *line, char **env)
+void		ft_local_binary(char **argv, char **env)
 {
-	char	**argv;
 	pid_t	pid;
 	int		i;
 
 	i = 0;
-	argv = ft_split_whitespaces(line);
 	ft_checking_av(argv, env);
 	if (check_local_bin(argv[0]) == 1)
 	{
@@ -61,20 +61,15 @@ void		ft_local_binary(char *line, char **env)
 		wait(&pid);
 		kill(pid, EXIT_SUCCESS);
 	}
-	else
-		ft_fprintf(2, "minishell: command not found : %s\n", argv[0]);
-	free_array(argv);
 }
 
-void		ft_binary(char *line, char **env)
+void		ft_binary(char **argv, char **env)
 {
-	char	**argv;
 	char	*dest;
 	char	**paths;
 	pid_t	pid;
 
 	paths = ft_strsplit(ft_getenv(env, "PATH"), ':');
-	argv = ft_split_whitespaces(line);
 	ft_checking_av(argv, env);
 	dest = checking_bin(paths, argv[0]);
 	if (dest)
@@ -89,8 +84,5 @@ void		ft_binary(char *line, char **env)
 		kill(pid, EXIT_SUCCESS);
 		free(dest);
 	}
-	else
-		ft_fprintf(2, "minishell: command not found : %s\n", argv[0]);
 	free_array(paths);
-	free_array(argv);
 }

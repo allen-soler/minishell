@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 15:38:00 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 19:30:49 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 13:38:58 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,66 +28,49 @@ static int	ft_setpwd(char *value, char **env)
 	return (0);
 }
 
-static void	ft_single_cd(char **env)
+static int	valid_dir(char *av)
 {
-	char	*user;
-	char	cwd[4097];
+	struct stat f_stat;
 
-	user = ft_strjoin("/Users/", ft_getenv(env, "USER"));
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-	{
-		chdir(user);
-		ft_setpwd(cwd, env);
-	}
-	free(user);
+	if (stat(av, &f_stat) == 0 && (S_ISDIR(f_stat.st_mode)
+				|| S_ISLNK(f_stat.st_mode)))
+		return (1);
+	ft_fprintf(2, "cd: is not a directory: %s\n", av);
+	return (0);
 }
 
-static void	ft_cd_access(char **av, char **env)
+static int	is_access(char *av)
 {
-	char	cwd[4097];
+	if (access(av, F_OK) == 0)
+		return (1);
+	ft_fprintf(2, "cd: no such file or directory: %s\n", av);
+	return (0);
+}
 
-	if (av[0] && av[1] == NULL)
-	{
-		if (access(av[0], F_OK) == 0)
-		{
-			if ((access(av[0], X_OK) == 0 || av[0][0] == '/')
-					&& getcwd(cwd, sizeof(cwd))
-					&& chdir(av[0]) == 0)
-			{
-				chdir(av[0]);
-				ft_setpwd(cwd, env);
-			}
-			else if (access(av[0], X_OK) == -1)
-				ft_fprintf(2, "cd: permission denied: %s\n", av[0]);
-			else
-				ft_fprintf(2, "cd: is not directory: %s\n", av[0]);
-		}
-		else
-			ft_fprintf(2, "cd: is not a drectory: %s\n", av[0]);
-	}
-	else if (av[1])
-		ft_fprintf(2, "cd: string not in pwd: %s\n", av[0]);
+static int	is_exec(char *av)
+{
+	if (access(av, X_OK) == 0)
+		return (1);
+	ft_fprintf(2, "cd: permission denied: %s\n", av);
+	return (0);
 }
 
 void		ft_cd(char **av, char **env)
 {
-	char	*tmp;
 	char	cwd[4097];
+	char	*path;
+	int		len;
 
-	if (av[0] == NULL)
-		ft_single_cd(env);
-	else if (av[0][0] == '-' && ft_strlen(av[0]) == 1 && av[1] == NULL
-			&& getcwd(cwd, sizeof(cwd)) != NULL)
+	len = tab_counter(av);
+	ft_checking_av(av, env);
+	if (len > 1)
+		ft_fprintf(2, "cd: string not in pwd: %s\n", av[0]);
+	path = (len == 0) ? ft_getenv(env, "HOME") : av[0];
+	path = (ft_strcmp(path, "-") == 0) ? ft_getenv(env, "OLDPWD") : path;
+	if (is_access(path) && valid_dir(path) && is_exec(path))
 	{
-		tmp = ft_getenv(env, "OLDPWD");
-		chdir(tmp);
+		getcwd(cwd, sizeof(cwd));
+		chdir(path);
 		ft_setpwd(cwd, env);
-	}/*
-		else if (ft_strcmp(av[0], "..") == 0 && av[1] == NULL
-		&& getcwd(cwd, sizeof(cwd)) != NULL)
-		{
-		tmp = ft
-		}*/
-	else if (av[0])
-		ft_cd_access(av, env);
+	}
 }

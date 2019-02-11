@@ -6,70 +6,85 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 18:58:21 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 14:02:11 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void ft_exit(char *line)
+static void	ft_exit(char **av)
 {
-	char	**av;
+	int	len;
 
-	av = ft_split_whitespaces(line);
-	if (ft_strcmp(av[0], "exit") == 0 && ft_strlen(av[1]) == 0)
-	{
-		free_array(av);
-		exit(EXIT_SUCCESS);
-	}
-	else if (ft_strcmp(av[0], "exit") == 0 && av[2] == NULL)
-	{
-		free_array(av);
-		exit(EXIT_SUCCESS);
-	}
-	else if (av[2] != NULL)
+	len = tab_counter(av);
+	if (len > 2)
 		ft_fprintf(2, "exit: too many arguments\n");
-	free(av);
+	else if (ft_strcmp(av[0], "exit") == 0)
+	{
+		free_array(av);
+		exit(EXIT_SUCCESS);
+	}
 }
 
 static void	check_command(char *line, char **env)
 {
+	char	**av;
 	char	**split;
 	int		i;
-	int		j;
-	int		builtins;
 
 	i = 0;
 	split = ft_strsplit(line, ';');
 	while (split[i])
 	{
-		j = remove_spaces(split[i]);
-		builtins = ft_get_builtins(&split[i][j]);
-		if (ft_strncmp(&line[remove_spaces(line)], "exit", 4) == 0)
-			ft_exit(&split[i][i]);
-		if (builtins > 0)
-			ft_builtins(&split[i][j], builtins, env);
+		av = ft_split_whitespaces(split[i]);
+		if (ft_strcmp(av[0], "exit") == 0)
+			ft_exit(av);
+		else if (check_builtins(av[0]) == 1)
+			picking_builtins(av, split[i], env);
 		else if (split[i][0] == '.')
-			ft_local_binary(split[i], env);
+			ft_local_binary(av, env);
 		else
-			ft_binary(split[i], env);
+			ft_binary(av, env);
+		free_array(av);
 		i++;
 	}
 	free_array(split);
 }
 
+static char	*home_path(char *home, char **env)
+{
+	char	*tmp;
+	int		len;
+
+	tmp = NULL;
+	len = ft_strlen(ft_getenv(env, "HOME"));
+	if (ft_strcmp(ft_getenv(env, "HOME"), ft_getenv(env, "PWD")) == 0)
+		home = ft_strdup(ft_getenv(env, "PWD"));
+	else if ((tmp = ft_strdup(ft_getenv(env, "PWD"))))
+	{
+		home = ft_strjoin("~", &tmp[len]);
+		free(tmp);
+	}
+	return (home);
+}
+
 int			main(int ac, char **av, char **env)
 {
 	char	*line;
+	char	*home;
 
 	(void)ac;
 	(void)av;
 	env = malloc_env(env);
+	home = NULL;
 	while (69)
 	{
 		//signal(SIGINT, SIG_IGN);
-		ft_printf("{r}$>{R} ");
+		home = home_path(home, env);
+		ft_printf("{r}%s>{R} ", home);
 		get_next_line(0, &line);
+		if (home)
+			free(home);
 		if (line)
 			check_command(line, env);
 		free(line);

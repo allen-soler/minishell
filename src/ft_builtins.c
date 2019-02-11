@@ -6,72 +6,42 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:58:17 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/09 17:22:49 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 14:18:03 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_checking_av(char **av, char **env)
+int		check_builtins(char *av)
 {
-	int		i;
-	char	*r;
-	char	*tmp;
-
-	r = NULL;
-	tmp = NULL;
-	i = 0;
-	while (av[i])
-	{
-		if (av[i][0] == '~')
-		{
-			tmp = ft_strdup(av[i]);
-			free(av[i]);
-			if (ft_strlen(tmp) > 1)
-			{
-				r = ft_strjoin(ft_getenv(env, "HOME="), "/");
-				av[i] = ft_strjoin(r, &tmp[1]);
-				free(r);
-			}
-			else
-				av[i] = ft_strdup(ft_getenv(env, "HOME="));
-			free(tmp);
-		}
-		i++;
-	}
-}
-
-int		ft_get_builtins(char *line)
-{
-	char	**av;
-
-	av = ft_split_whitespaces(line);
-	if (ft_strcmp(av[0], "echo") == 0)
-	{
-		free_array(av);
+	if (ft_strcmp(av, "echo") == 0)
 		return (1);
-	}
-	else if (ft_strcmp(av[0], "cd") == 0)
-	{
-		free_array(av);
-		return (2);
-	}
-	free_array(av);
+	else if (ft_strcmp(av, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(av, "env") == 0)
+		return (1);
+	else if (ft_strcmp(av, "setenv") == 0)
+		return (1);
+	//	else if (ft_strcmp(av, "unsetenv") == 0)
+	//		return (1);
 	return (0);
 }
 
-void	ft_builtins(char *line, int nb, char **env)
+void	picking_builtins(char **av, char *line, char **env)
 {
-	char	**av;
-
-	av = NULL;
-	if (nb == 1)
-		ft_echo(&line[remove_spaces(&line[4]) + 4], env);
-	if (nb == 2)
+	if (ft_strcmp(av[0], "env") == 0 && tab_counter(av) == 1)
+		ft_print_tab(env);
+	else if (ft_strcmp(av[0], "echo") == 0)
+		ft_echo(&line[remove_spaces(line)], env);
+	else if (ft_strcmp(av[0], "cd") == 0)
+		ft_cd(&av[1], env);
+	else if (ft_strcmp(av[0], "setenv") == 0)
 	{
-		av = ft_split_whitespaces(&line[2]);
-		ft_checking_av(av, env);
-		ft_cd(av, env);
-		free_array(av);
+		if (tab_counter(av) > 3)
+		{
+			ft_fprintf(2, "setenv : Too many arguments\n");
+			return ;
+		}
+		ft_setenv(av[1], av[2], env);
 	}
 }

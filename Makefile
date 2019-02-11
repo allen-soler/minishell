@@ -6,7 +6,7 @@
 #    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 13:48:04 by jallen            #+#    #+#              #
-#    Updated: 2019/02/09 14:14:57 by jallen           ###   ########.fr        #
+#    Updated: 2019/02/11 13:55:34 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,8 @@ SOURCES = main.c\
 		  ft_tools.c\
 		  ft_cd.c\
 		  ft_echo.c\
-		  ft_parsing.c\
 		  ft_env.c\
+		  ft_builtins.c\
 
 SRCS = $(addprefix $(DIR_S)/, $(SOURCES))
 

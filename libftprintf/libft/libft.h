@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 12:49:23 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/08 16:21:18 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 11:49:36 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ char				*ft_strndup(const char *s1, size_t n);
 int					get_next_line(const int fd, char **line);
 char				**ft_split_whitespaces(char *str);
 char				**ft_obstacles(char *str);
+void				ft_print_tab(char **av);
 
 #endif
