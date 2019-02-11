@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 19:07:38 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 20:09:02 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	check_command(char *line, char **env)
 			ft_exit(av);
 		else if (check_builtins(av[0]) == 1)
 			picking_builtins(av, split[i], env);
-		else if (split[i][0] == '.')
+		else if (av[0][0] == '.' || av[0][0] == '/')
 			ft_local_binary(av, env);
 		else
 			ft_binary(av, env);

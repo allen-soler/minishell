@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 12:03:35 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 19:06:53 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 19:33:13 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void		ft_echo(char *av, char **env)
 				ft_putchar(argv[i][j]);
 			j++;
 		}
+		ft_putchar(32);
 		i++;
 	}
-	if ((r & N) == 0)
-		ft_putchar('\n');
+	(r & N) == 0 ? ft_putchar('\n') : 0;
 	free_array(argv);
 }
