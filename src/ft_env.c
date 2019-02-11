@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 14:02:36 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 16:02:50 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 17:31:58 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,53 @@ int		ft_get_index(char **env, char *src)
 	return (0);
 }
 
-void	positioning_env(char **env)
+char	**env_addr(char **env, char *src)
 {
-	char	**ptr;
+	int		i;
+	int		len;
 
-	ptr = env + 1;
-	free(*env);
-	while (ptr && *ptr)
+	i = 0;
+	if (env == NULL || src == NULL)
+		return (NULL);
+	len = ft_strlen(src);
+	while (env[i])
 	{
-		*env = *ptr;
-		env = ptr;
-		ptr = ptr + 1;
+		if (ft_strncmp(env[i], src, len) == 0
+				&& env[i][len] == '=')
+			return (env + i);
+		i++;
 	}
-	*ptr = NULL;
+	return (NULL);
+}
+
+void	delete_env(char *name, char **env)
+{
+	char **ptr;
+	char 	**tmp;
+
+	ptr = env_addr(env, name);
+	if (ptr)
+	{
+		tmp = ptr + 1;
+		free(*ptr);
+		while (tmp && *tmp)
+		{
+			*ptr =*tmp;
+			ptr = tmp;
+			tmp = tmp +1;
+		}
+		*ptr = NULL;
+	}
 }
 
 char	**ft_unset_env(char **name, char **env)
 {
-	
+	while (name && *name)
+	{
+		delete_env(*name, env);
+		ptr = env_addr(env, *name)
+		name = name + 1;		
+	}
 	return (env);
 }
 

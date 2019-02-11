@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 15:01:23 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 17:30:48 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,40 +51,21 @@ static void	check_command(char *line, char **env)
 	free_array(split);
 }
 
-static char	*home_path(char *home, char **env)
-{
-	char	*tmp;
-	int		len;
-
-	tmp = NULL;
-	len = ft_strlen(ft_getenv(env, "HOME"));
-	if (ft_strcmp(ft_getenv(env, "HOME"), ft_getenv(env, "PWD")) == 0)
-		home = ft_strdup(ft_getenv(env, "PWD"));
-	else if ((tmp = ft_strdup(ft_getenv(env, "PWD"))))
-	{
-		home = ft_strjoin("~", &tmp[len]);
-		free(tmp);
-	}
-	return (home);
-}
-
 int			main(int ac, char **av, char **env)
 {
 	char	*line;
-	char	*home;
+	int		len;
 
 	(void)ac;
 	(void)av;
 	env = malloc_env(env);
-	home = NULL;
 	while (69)
 	{
 		//signal(SIGINT, SIG_IGN);
-		home = home_path(home, env);
-		ft_printf("{r}%s>{R} ", home);
-		get_next_line(0, &line);
+		ft_printf("{r}$>{R}");
 		if (home)
 			free(home);
+		get_next_line(0, &line);
 		if (line)
 			check_command(line, env);
 		free(line);
