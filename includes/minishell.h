@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 16:51:06 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:06:19 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,7 @@ void	picking_builtins(char **av, char *line, char **env);
 ** Parsing
 */
 void	ft_checking_av(char **av, char **env);
+void	ft_checking_var(char **av, char **env);
 int		remove_spaces(char *split);
-/*
-** FREE + TOOLS
-*/
-void	free_array(char **tab);
-int		tab_counter(char **av);
 
 #endif

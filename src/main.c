@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 17:30:48 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 17:35:24 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static void	check_command(char *line, char **env)
 int			main(int ac, char **av, char **env)
 {
 	char	*line;
-	int		len;
 
 	(void)ac;
 	(void)av;
@@ -63,8 +62,6 @@ int			main(int ac, char **av, char **env)
 	{
 		//signal(SIGINT, SIG_IGN);
 		ft_printf("{r}$>{R}");
-		if (home)
-			free(home);
 		get_next_line(0, &line);
 		if (line)
 			check_command(line, env);

@@ -6,27 +6,11 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 14:02:36 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 17:31:58 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:02:25 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-char	**malloc_env(char **env)
-{
-	size_t	i;
-
-	i = 0;
-	if (env == NULL)
-		return (NULL);
-	while (env[i])
-	{
-		env[i] = ft_strdup(env[i]);
-		i++;
-	}
-	env[i] = NULL;
-	return (env);
-}
 
 int		ft_get_index(char **env, char *src)
 {
@@ -66,33 +50,28 @@ char	**env_addr(char **env, char *src)
 	return (NULL);
 }
 
-void	delete_env(char *name, char **env)
-{
-	char **ptr;
-	char 	**tmp;
-
-	ptr = env_addr(env, name);
-	if (ptr)
-	{
-		tmp = ptr + 1;
-		free(*ptr);
-		while (tmp && *tmp)
-		{
-			*ptr =*tmp;
-			ptr = tmp;
-			tmp = tmp +1;
-		}
-		*ptr = NULL;
-	}
-}
-
 char	**ft_unset_env(char **name, char **env)
 {
+	char	**ptr;
+	char	**tmp;
+
+	ptr = NULL;
 	while (name && *name)
 	{
-		delete_env(*name, env);
-		ptr = env_addr(env, *name)
-		name = name + 1;		
+		ptr = env_addr(env, *name);
+		if (ptr)
+		{
+			tmp = ptr + 1;
+			free(*ptr);
+			while (tmp && *tmp)
+			{
+				*ptr = *tmp;
+				ptr = tmp;
+				tmp = tmp + 1;
+			}
+			*ptr = NULL;
+		}
+		name = name + 1;
 	}
 	return (env);
 }

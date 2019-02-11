@@ -6,34 +6,11 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:53:10 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 10:30:36 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:06:20 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	free_array(char **tab)
-{
-	char	**ptr;
-
-	ptr = tab;
-	while (tab && *tab)
-	{
-		free(*tab);
-		tab++;
-	}
-	(ptr) ? free(ptr) : 0;
-}
-
-int		tab_counter(char **av)
-{
-	int	i;
-
-	i = 0;
-	while (av[i])
-		i++;
-	return (i);
-}
 
 int		remove_spaces(char *split)
 {
@@ -49,7 +26,7 @@ int		remove_spaces(char *split)
 	return (i);
 }
 
-void	ft_checking_av(char **av, char **env)
+void	ft_checking_var(char **av, char **env)
 {
 	int		i;
 	char	*tmp;
@@ -57,6 +34,26 @@ void	ft_checking_av(char **av, char **env)
 	tmp = NULL;
 	i = 0;
 	while (av[i])
+	{
+		if (av[i][0] == '$' && ft_getenv(env, &av[i][1]))
+		{
+			tmp = ft_strdup(av[i]);
+			free(av[i]);
+			av[i] = ft_strdup(ft_getenv(env, &tmp[1]));
+			free(tmp);
+		}
+		i++;
+	}
+}
+
+void	ft_checking_av(char **av, char **env)
+{
+	int		i;
+	char	*tmp;
+
+	tmp = NULL;
+	i = 0;
+	while (av[i] && ft_strlen(ft_getenv(env, "HOME")) > 0)
 	{
 		if (av[i][0] == '~' && av[i][1] == '/')
 		{
@@ -72,4 +69,21 @@ void	ft_checking_av(char **av, char **env)
 		}
 		i++;
 	}
+	ft_checking_var(av, env);
+}
+
+char	**malloc_env(char **env)
+{
+	size_t	i;
+
+	i = 0;
+	if (env == NULL)
+		return (NULL);
+	while (env[i])
+	{
+		env[i] = ft_strdup(env[i]);
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
 }

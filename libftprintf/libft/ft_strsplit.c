@@ -6,11 +6,12 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/15 09:36:57 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/06 17:52:40 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 17:46:52 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static int		is_blank(char c, char split)
 {
@@ -24,6 +25,8 @@ static size_t	count_words(char const *str, char split)
 
 	i = 0;
 	count = 0;
+	if (ft_strlen(str) == 0)
+		return (0);
 	while (str[i] != '\0')
 	{
 		if (!is_blank(str[i], split) && str[i] != '\0')
