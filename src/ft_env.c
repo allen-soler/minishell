@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 14:02:36 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 14:23:14 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 16:02:50 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,27 @@ int		ft_get_index(char **env, char *src)
 	return (0);
 }
 
+void	positioning_env(char **env)
+{
+	char	**ptr;
+
+	ptr = env + 1;
+	free(*env);
+	while (ptr && *ptr)
+	{
+		*env = *ptr;
+		env = ptr;
+		ptr = ptr + 1;
+	}
+	*ptr = NULL;
+}
+
+char	**ft_unset_env(char **name, char **env)
+{
+	
+	return (env);
+}
+
 int		ft_setenv(char *name, char *new, char **env)
 {
 	char	*tmp;
@@ -63,7 +84,7 @@ int		ft_setenv(char *name, char *new, char **env)
 		i = ft_get_index(env, name);
 		free(env[i]);
 		tmp = ft_strjoin(name, "=");
-		env[i] = ft_strjoin(tmp, new);
+		env[i] = (new == NULL) ? ft_strdup(tmp) : ft_strjoin(tmp, new);
 		free(tmp);
 	}
 	else

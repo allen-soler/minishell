@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:58:17 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 14:18:03 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/11 16:02:52 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int		check_builtins(char *av)
 		return (1);
 	else if (ft_strcmp(av, "setenv") == 0)
 		return (1);
-	//	else if (ft_strcmp(av, "unsetenv") == 0)
-	//		return (1);
+	else if (ft_strcmp(av, "unsetenv") == 0)
+		return (1);
 	return (0);
 }
 
@@ -44,4 +44,6 @@ void	picking_builtins(char **av, char *line, char **env)
 		}
 		ft_setenv(av[1], av[2], env);
 	}
+	else if (ft_strcmp(av[0], "unsetenv") == 0)
+		env = ft_unset_env(&av[1], env);
 }
