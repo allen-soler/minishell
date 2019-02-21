@@ -31,6 +31,7 @@ SOURCES = main.c\
 		  ft_echo.c\
 		  ft_env.c\
 		  ft_builtins.c\
+	ft_signal.c
 
 SRCS = $(addprefix $(DIR_S)/, $(SOURCES))
 

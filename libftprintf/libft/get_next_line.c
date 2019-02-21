@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 t_list			*ft_get_file(t_list **file, int fd)
 {
@@ -71,7 +72,10 @@ int				get_next_line(const int fd, char **line)
 			break ;
 	}
 	if (ret < BUFF_SIZE && !ft_strlen(tmp->content))
+	{
+		exit(0);
 		return (0);
+	}
 	tmp->content = ft_vef_line(tmp->content, line);
 	return (1);
 }

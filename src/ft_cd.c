@@ -66,6 +66,7 @@ void		ft_cd(char **av, char **env)
 	if (len > 1)
 		ft_fprintf(2, "cd: string not in pwd: %s\n", av[0]);
 	path = (len == 0) ? ft_getenv(env, "HOME") : av[0];
+	path = (ft_strcmp(path, "--") == 0) ? ft_getenv(env, "HOME") : path;
 	path = (ft_strcmp(path, "-") == 0) ? ft_getenv(env, "OLDPWD") : path;
 	if (is_access(path) && valid_dir(path) && is_exec(path))
 	{

@@ -37,7 +37,7 @@ static int	check_local_bin(char *dest)
 {
 	struct stat	f_stat;
 
-	if (stat(dest, &f_stat) == 0 && f_stat.st_mode & S_IXUSR)
+	if (lstat(dest, &f_stat) != -1 && f_stat.st_mode & S_IXUSR)
 		return (1);
 	ft_fprintf(2, "minishell: command not found : %s\n", dest);
 	return (0);
@@ -50,8 +50,11 @@ void		ft_local_binary(char **argv, char **env)
 
 	i = 0;
 	ft_checking_av(argv, env);
+	if (ft_strcmp(argv[0], ".") == 0 || ft_strcmp(argv[0], "/") == 0)
+		return ;
 	if (check_local_bin(argv[0]) == 1)
 	{
+		signal(SIGINT, program_handler);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -59,7 +62,6 @@ void		ft_local_binary(char **argv, char **env)
 			exit(EXIT_SUCCESS);
 		}
 		wait(&pid);
-		kill(pid, EXIT_SUCCESS);
 	}
 }
 
@@ -74,6 +76,7 @@ void		ft_binary(char **argv, char **env)
 	dest = checking_bin(paths, argv[0]);
 	if (dest)
 	{
+		signal(SIGINT, program_handler);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -81,7 +84,6 @@ void		ft_binary(char **argv, char **env)
 			exit(EXIT_SUCCESS);
 		}
 		wait(&pid);
-		kill(pid, EXIT_SUCCESS);
 		free(dest);
 	}
 	free_array(paths);

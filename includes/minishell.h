@@ -55,5 +55,10 @@ void	ft_checking_av(char **av, char **env);
 void	ft_checking_var(char **av, char **env);
 int		remove_spaces(char *split);
 char	**ft_split(char const *str, char split);
-
+/*
+** Signal 
+*/
+void	simple_handler(int signal_nb);
+void	program_handler(int signla_nb);
+	
 #endif

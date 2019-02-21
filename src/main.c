@@ -37,14 +37,17 @@ static void	check_command(char *line, char **env)
 	while (split[i])
 	{
 		av = ft_split_whitespaces(split[i]);
-		if (ft_strcmp(av[0], "exit") == 0)
-			ft_exit(av);
-		else if (check_builtins(av[0]) == 1)
-			picking_builtins(av, split[i], env);
-		else if (av[0][0] == '.' || av[0][0] == '/')
-			ft_local_binary(av, env);
-		else
-			ft_binary(av, env);
+		if (av[0])
+		{
+			if (ft_strcmp(av[0], "exit") == 0)
+				ft_exit(av);
+			else if (check_builtins(av[0]) == 1)
+				picking_builtins(av, split[i], env);
+			else if ((av[0][0] == '.' || av[0][0] == '/'))
+				ft_local_binary(av, env);
+			else
+				ft_binary(av, env);
+		}
 		free_array(av);
 		i++;
 	}
@@ -60,12 +63,14 @@ int			main(int ac, char **av, char **env)
 	env = malloc_env(env);
 	while (69)
 	{
-		signal(SIGINT, SIG_IGN);
 		ft_printf("{r}$>{R}");
+		signal(SIGINT, simple_handler);
 		get_next_line(0, &line);
 		if (line)
+		{
 			check_command(line, env);
-		free(line);
+			free(line);
+		}
 	}
 	return (0);
 }
