@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 19:12:43 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/27 16:09:54 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	ft_checking_var(char **av, char **env);
 int		remove_spaces(char *split);
 char	**ft_split(char const *str, char split);
 /*
-** Signal 
+** Signal
 */
 void	simple_handler(int signal_nb);
 void	program_handler(int signla_nb);
-	
+
 #endif

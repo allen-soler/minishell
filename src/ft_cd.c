@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 15:38:00 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 15:17:52 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/27 16:08:35 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ void		ft_cd(char **av, char **env)
 	if (len > 1)
 		ft_fprintf(2, "cd: string not in pwd: %s\n", av[0]);
 	path = (len == 0) ? ft_getenv(env, "HOME") : av[0];
-	path = (ft_strcmp(path, "--") == 0) ? ft_getenv(env, "HOME") : path;
-	path = (ft_strcmp(path, "-") == 0) ? ft_getenv(env, "OLDPWD") : path;
-	if (is_access(path) && valid_dir(path) && is_exec(path))
+	path = (path && ft_strcmp(path, "--") == 0) ? ft_getenv(env, "HOME") : path;
+	path = (path && ft_strcmp(path, "-") == 0)\
+		? ft_getenv(env, "OLDPWD") : path;
+	if (path && is_access(path) && valid_dir(path) && is_exec(path))
 	{
 		getcwd(cwd, sizeof(cwd));
 		chdir(path);
