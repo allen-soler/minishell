@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 12:50:58 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/11 20:01:24 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/28 16:24:04 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void		ft_local_binary(char **argv, char **env)
 	int		i;
 
 	i = 0;
-	ft_checking_av(argv, env);
 	if (ft_strcmp(argv[0], ".") == 0 || ft_strcmp(argv[0], "/") == 0)
 		return ;
 	if (check_local_bin(argv[0]) == 1)
@@ -72,7 +71,6 @@ void		ft_binary(char **argv, char **env)
 	pid_t	pid;
 
 	paths = ft_strsplit(ft_getenv(env, "PATH"), ':');
-	ft_checking_av(argv, env);
 	dest = checking_bin(paths, argv[0]);
 	if (dest)
 	{

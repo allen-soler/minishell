@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/27 18:45:31 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/28 16:26:35 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	check_command(char *line, char **env)
 		av = ft_split_whitespaces(split[i]);
 		if (av[0])
 		{
+			ft_checking_av(av, env);
 			if (ft_strcmp(av[0], "exit") == 0)
 				ft_exit(av);
 			else if (check_builtins(av[0]) == 1)
@@ -54,16 +55,38 @@ static void	check_command(char *line, char **env)
 	free_array(split);
 }
 
+static char	*get_pwd(char **env)
+{
+	char	*dest;
+	char	*tmp;
+	char	pwd[4097];
+	int		i;
+
+	dest = NULL;
+	tmp = NULL;
+	if (env == NULL)
+		return (0);
+	if (getcwd(pwd, sizeof(pwd)) != NULL)
+		dest = ft_strdup(pwd);
+	i = ft_strlen(ft_getenv(env, "HOME"));
+	tmp = ft_strjoin("~", &dest[i]);
+	free(dest);
+	return (tmp);
+}
+
 int			main(int ac, char **av, char **env)
 {
 	char	*line;
+	char	*pwd;
 
 	(void)ac;
 	(void)av;
 	env = malloc_env(env);
+	pwd = NULL;
 	while (69)
 	{
-		ft_printf("{r}$>{R}");
+		pwd = get_pwd(env);
+		ft_printf("{c}%s/{R}{r}$>{R}", pwd);
 		signal(SIGINT, simple_handler);
 		get_next_line(0, &line);
 		if (line)
@@ -71,6 +94,8 @@ int			main(int ac, char **av, char **env)
 			check_command(line, env);
 			free(line);
 		}
+		if (pwd)
+			free(pwd);
 	}
 	return (0);
 }

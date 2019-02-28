@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 15:38:00 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/27 16:08:35 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/28 16:24:12 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void		ft_cd(char **av, char **env)
 	int		len;
 
 	len = tab_counter(av);
-	ft_checking_av(av, env);
 	if (len > 1)
 		ft_fprintf(2, "cd: string not in pwd: %s\n", av[0]);
 	path = (len == 0) ? ft_getenv(env, "HOME") : av[0];
