@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:58:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/28 16:26:35 by jallen           ###   ########.fr       */
+/*   Updated: 2019/02/28 17:29:41 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	check_command(char *line, char **env)
 			ft_checking_av(av, env);
 			if (ft_strcmp(av[0], "exit") == 0)
 				ft_exit(av);
-			else if (check_builtins(av[0]) == 1)
+			else if (check_builtins(av[0], av) == 1)
 				picking_builtins(av, split[i], env);
 			else if ((av[0][0] == '.' || av[0][0] == '/'))
 				ft_local_binary(av, env);
@@ -67,10 +67,17 @@ static char	*get_pwd(char **env)
 	if (env == NULL)
 		return (0);
 	if (getcwd(pwd, sizeof(pwd)) != NULL)
+	{
+		if (ft_strcmp("/", pwd) == 0)
+		{
+			dest = ft_strdup("");
+			return (dest);
+		}
 		dest = ft_strdup(pwd);
-	i = ft_strlen(ft_getenv(env, "HOME"));
-	tmp = ft_strjoin("~", &dest[i]);
-	free(dest);
+		i = ft_strlen(ft_getenv(env, "HOME"));
+		tmp = ft_strjoin("~", &dest[i]);
+		free(dest);
+	}
 	return (tmp);
 }
 

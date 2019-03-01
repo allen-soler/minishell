@@ -6,7 +6,7 @@
 #    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/24 13:48:04 by jallen            #+#    #+#              #
-#    Updated: 2019/02/28 16:29:14 by jallen           ###   ########.fr        #
+#    Updated: 2019/02/28 17:15:48 by jallen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,9 @@ DIR_H = includes
 SOURCES = main.c\
 		  ft_binaries.c\
 		  ft_tools.c\
-		  ft_cd.c\
 		  ft_echo.c\
+		  ft_cd.c\
+		  ft_uncd.c\
 		  ft_env.c\
 		  ft_builtins.c\
 		  ft_signal.c\

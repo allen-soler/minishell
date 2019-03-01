@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_uncd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/07 15:38:00 by jallen            #+#    #+#             */
-/*   Updated: 2019/02/28 17:06:29 by jallen           ###   ########.fr       */
+/*   Created: 2019/02/28 17:06:36 by jallen            #+#    #+#             */
+/*   Updated: 2019/02/28 17:19:09 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,12 @@ static int	is_exec(char *av)
 	return (0);
 }
 
-void		ft_cd(char **av, char **env)
+void		ft_uncd(char *av, char **env)
 {
 	char	cwd[4097];
 	char	*path;
-	int		len;
 
-	len = tab_counter(av);
-	if (len > 1)
-		ft_fprintf(2, "cd: string not in pwd: %s\n", av[0]);
-	path = (len == 0) ? ft_getenv(env, "HOME") : av[0];
+	path = av;
 	path = (path && ft_strcmp(path, "--") == 0) ? ft_getenv(env, "HOME") : path;
 	path = (path && ft_strcmp(path, "-") == 0)\
 		? ft_getenv(env, "OLDPWD") : path;
